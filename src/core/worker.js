@@ -39,7 +39,9 @@ import { incrementalUpdate } from "./writer.js";
 import { isNodeJS } from "../shared/is_node.js";
 import { MessageHandler } from "../shared/message_handler.js";
 import { PDFWorkerStream } from "./worker_stream.js";
-
+// 
+// import { PDFDocument } from "../../node_modules/pdf-lib/dist/pdf-lib.esm.js";
+import { PDFDocument } from "pdf-lib";
 class WorkerTask {
   constructor(name) {
     this.name = name;
@@ -204,6 +206,23 @@ class WorkerMessageHandler {
       return { numPages, fingerprints, htmlForXfa };
     }
 
+    // hyunsu00
+    async function removeAnnots(data) {
+      const pdfDoc = await PDFDocument.load(data, { ignoreEncryption: true });
+      const pages = pdfDoc.getPages();
+      pages.forEach((page) => {
+        const annots = page.node.Annots();
+        const size = annots?.size();
+        if (size) {
+          for (let i = 0; i < size; i++) {
+            annots.context.delete(annots.get(i));
+          }
+        }
+      });
+    
+      return await pdfDoc.save();
+    }
+
     function getPdfManager(data, evaluatorOptions, enableXfa) {
       const pdfManagerCapability = createPromiseCapability();
       let newPdfManager;
@@ -277,8 +296,11 @@ class WorkerMessageHandler {
         });
 
       let loaded = 0;
-      const flushChunks = function () {
-        const pdfFile = arraysToBytes(cachedChunks);
+      const flushChunks = async function () {
+        // const pdfFile = arraysToBytes(cachedChunks);
+        // hyunsu00
+        // 주석을 제거한다.
+        const pdfFile = await removeAnnots(arraysToBytes(cachedChunks));
         if (source.length && pdfFile.length !== source.length) {
           warn("reported HTTP length is different from actual");
         }

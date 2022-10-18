@@ -71,6 +71,8 @@ const defaultOptions = {
   annotationMode: {
     /** @type {number} */
     value: 2,
+    // hyunsu00
+    // value: 0,
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE,
   },
   cursorToolOnLoad: {

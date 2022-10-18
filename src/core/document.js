@@ -607,6 +607,10 @@ class Page {
   get annotations() {
     const annots = this._getInheritableProperty("Annots");
     return shadow(this, "annotations", Array.isArray(annots) ? annots : []);
+
+    // hyunsu00
+    // 이 코드는 주석을 렌더링하지 않는다.
+    // return [];
   }
 
   get _parsedAnnotations() {

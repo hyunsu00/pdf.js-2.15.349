@@ -64,7 +64,8 @@
     "webpack": "^5.73.0",
     "webpack-stream": "^7.0.0",
     "wintersmith": "^2.5.0",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "pdf-lib": "^1.17.1"
   },
   "scripts": {
     "postinstall": "cross-env PUPPETEER_PRODUCT=firefox node node_modules/puppeteer/install.js"
