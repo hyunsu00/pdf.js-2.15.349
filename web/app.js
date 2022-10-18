@@ -77,6 +77,7 @@ import { PDFViewer } from "./pdf_viewer.js";
 import { SecondaryToolbar } from "./secondary_toolbar.js";
 import { Toolbar } from "./toolbar.js";
 import { ViewHistory } from "./view_history.js";
+import 'annotpdf';
 
 const DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000; // ms
 const FORCE_PAGES_LOADED_TIMEOUT = 10000; // ms
@@ -1008,7 +1009,21 @@ const PDFViewerApplication = {
     try {
       this._ensureDownloadComplete();
 
-      const data = await this.pdfDocument.getData();
+      let data = await this.pdfDocument.getData();
+      {
+        let writer = new pdfAnnotate.AnnotationFactory(data);
+        let ta = writer.createSquareAnnotation({
+          page: 0,
+          rect: [100, 600, 200, 700],
+          contents: "",
+          author: "",
+          color: {r:10,g:50,b:30},
+          fill: {r:150,g:200,b:20}
+        });
+        ta.createDefaultAppearanceStream();
+        data = writer.write();
+      }
+      
       const blob = new Blob([data], { type: "application/pdf" });
 
       await this.downloadManager.download(blob, url, filename);

@@ -8,6 +8,7 @@
     "@babel/runtime": "^7.18.9",
     "@javascript-obfuscator/escodegen": "2.3.0",
     "acorn": "^8.8.0",
+    "annotpdf": "^1.0.15",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "caniuse-lite": "^1.0.30001369",
@@ -41,6 +42,7 @@
     "merge-stream": "^2.0.0",
     "mkdirp": "^1.0.4",
     "needle": "^3.1.0",
+    "pdf-lib": "^1.17.1",
     "postcss": "^8.4.14",
     "postcss-dir-pseudo-class": "^6.0.5",
     "postcss-logical": "^5.0.4",
@@ -64,8 +66,7 @@
     "webpack": "^5.73.0",
     "webpack-stream": "^7.0.0",
     "wintersmith": "^2.5.0",
-    "yargs": "^17.5.1",
-    "pdf-lib": "^1.17.1"
+    "yargs": "^17.5.1"
   },
   "scripts": {
     "postinstall": "cross-env PUPPETEER_PRODUCT=firefox node node_modules/puppeteer/install.js"
